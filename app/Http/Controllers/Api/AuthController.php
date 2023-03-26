@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\RegisterRequest;
+use App\Http\Requests\Api\Auth\ResetPasswordRequest;
 use App\Models\User;
 use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -71,5 +73,13 @@ class AuthController extends Controller
         }
 
         return $this->Result(400);
+    }
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $user = User::where('phone', $request->phone)->first();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return $this->Result(200);
     }
 }

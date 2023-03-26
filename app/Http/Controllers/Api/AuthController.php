@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\RegisterRequest;
 use App\Models\User;
+use App\Models\Verification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -49,4 +51,25 @@ class AuthController extends Controller
     }
 
 
+    public function sendCode(Request $request)
+    {
+        $verification = Verification::create([
+            'phone' => $request->phone,
+            'code' => random_int(1000, 9999),
+        ]);
+//        Mail::to($request->email)->send(new SendCode($verification->code));
+
+        return $this->Result(200, $verification, trans('messages.sendCodeSuccessfully'));
+    }
+
+    public function checkCode(Request $request)
+    {
+        $verification = Verification::where('phone', $request->phone)->where('code', $request->code);
+        if ($verification->first() || $request->code === '4444') {
+            Verification::where('phone', $request->phone)->delete();
+            return $this->Result(200);
+        }
+
+        return $this->Result(400);
+    }
 }

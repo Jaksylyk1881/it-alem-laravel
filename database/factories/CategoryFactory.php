@@ -19,6 +19,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => fake()->word(),
+            'image' => config('app.url') . '/' . str_replace('public/', '', fake()->image('public/uploads/categories')),
             'type' => fake()->randomElement(Category::TYPES),
             'parent_id' => Category::inRandomOrder()->value('id') ?? null,
         ];

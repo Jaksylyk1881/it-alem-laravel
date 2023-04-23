@@ -17,6 +17,7 @@ class CreateBasketsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('gift_product_id')->nullable()->constrained('products')->cascadeOnUpdate()->nullOnDelete();
             $table->unsignedBigInteger('count')->default(1);
             $table->timestamps();
         });

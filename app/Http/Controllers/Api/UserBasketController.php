@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Basket;
-use App\Models\BasketProduct;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,7 +15,15 @@ class UserBasketController extends Controller
      */
     public function index(Request $request)
     {
-        $basket_products = $request->user()->baskets()->with(['product', 'product.images', 'product.user:name,id'])->get();
+        $basket_products = $request->user()
+            ->baskets()
+            ->with([
+                'product',
+                'product.images',
+                'product.user:name,id',
+                'gift_product.images',
+            ])
+            ->get();
         return $this->Result(200, [
             'total_price' => $basket_products->sum('product.price'),
             'total_count' => $basket_products->sum('count'),
@@ -29,7 +36,6 @@ class UserBasketController extends Controller
      */
     public function store(Request $request)
     {
-
         $product = Product::find($request->product_id);
         $basket = Basket::where('user_id')->first();
         if($basket != null && $basket->first()->product()->user()->id != $product->user()->id) {
@@ -41,6 +47,7 @@ class UserBasketController extends Controller
         }
         $basket = Basket::create([
             'product_id' => $product->id,
+            'gift_product_id' => $request->gift_product_id,
             'user_id' => $request->user()->id,
         ]);
         return $this->Result(200, $basket);

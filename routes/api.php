@@ -48,7 +48,9 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::put('/', [UserController::class, 'update']);
     Route::get('/product', [UserController::class, 'products']);
-    Route::delete('products/image/{image}', [ProductController::class, 'deleteImage']);
+    Route::get('/product/placeholders', [ProductController::class, 'placeholders']);
+    Route::delete('products/{product}/image/{image}', [ProductController::class, 'deleteImage']);
+    Route::delete('products/{product}/gift/{gift}', [ProductController::class, 'deleteGift']);
     Route::apiResource('product', ProductController::class)->only(['store', 'update', 'destroy']);
 
     Route::delete('basket/clear', [UserBasketController::class, 'clear']);

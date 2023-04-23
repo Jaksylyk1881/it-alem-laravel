@@ -17,8 +17,10 @@ class BannerFactory extends Factory
      */
     public function definition(): array
     {
+        $image_path = config('app.url') . '/placeholders/images/avatar.jpg';
+
         return [
-            'image' => config('app.url') . '/' . str_replace('public/', '', fake()->image('public/uploads/banners')),
+            'image' => $image_path,
             'start_date' => now(),
             'end_date' => now()->addMonth(),
             'category_id' => Category::inRandomOrder()->value('id') ?? Category::factory()->create()->value('id'),

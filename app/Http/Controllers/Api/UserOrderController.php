@@ -19,7 +19,13 @@ class UserOrderController extends Controller
     {
         return $this->Result(
             200,
-            Order::with('address')->where('user_id', $request->user()->id)
+            Order::query()
+                ->with([
+                    'address',
+                    'products.product.images',
+                    'products.gift_products.images',
+                ])
+                ->where('user_id', $request->user()->id)
                 ->get()
         );
     }
@@ -47,6 +53,7 @@ class UserOrderController extends Controller
             OrderProduct::create([
                 'order_id' => $order->id,
                 'product_id' => $basket->product_id,
+                'gift_product_id' => $basket->gift_product_id,
             ]);
 
         }
@@ -61,7 +68,14 @@ class UserOrderController extends Controller
      */
     public function show(Order $order)
     {
-        return $this->Result(200, $order->load('products')); //add products->images
+        return $this->Result(
+            200,
+            $order->load([
+                'address',
+                'products.product.images',
+                'products.gift_products.images',
+            ])
+        ); //add products->images
     }
 
 }

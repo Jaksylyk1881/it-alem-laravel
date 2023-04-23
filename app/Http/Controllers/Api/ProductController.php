@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Product\ProductStoreRequest;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\ProductGift;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,28 +32,29 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $product = Product::with('images')
+        $products = Product::with('images')
             ->withCount('reviews')
+            ->withCount('gifts')
             ->withAvg('reviews', 'rate');
         //sort
         switch ($request->get('sort', 'id')) {
             case 'new':
-                $product->orderBy('created_at', 'desc');
+                $products->orderBy('created_at', 'desc');
                 break;
             case 'cheap':
-                $product->orderBy('price');
+                $products->orderBy('price');
                 break;
             case 'expensive':
-                $product->orderBy('price', 'desc');
+                $products->orderBy('price', 'desc');
                 break;
             case 'rating':
-                $product->orderBy('reviews_avg_rate', 'DESC');
+                $products->orderBy('reviews_avg_rate', 'DESC');
                 break;
             case 'popular':
-                $product->orderBy('reviews_count', 'DESC');
+                $products->orderBy('reviews_count', 'DESC');
                 break;
         }
-        $product->when($request->price_start, function ($query) use ($request){
+        $products->when($request->price_start, function ($query) use ($request){
                 $query->where('price', '>=', $request->price_start);
             })
             ->when($request->price_end, function ($query) use ($request){
@@ -60,15 +63,19 @@ class ProductController extends Controller
             ->when($request->brand_id, function ($query) use ($request){
                 $query->where('brand_id', $request->brand_id);
             });
-        $product = $product->paginate(10);
+        $products = $products->paginate(10);
+        $product_items = array_map(function(Product $product) {
+            $product['has_gifts'] = $product['gifts_count'] > 0;
+            unset($product['gifts_count']);
+        }, $products->items());
         return $this->Result(200, [
-            'items' => $product->items(),
+            'items' => $products->items(),
             'pagination' => [
-                'total' => $product->total(),
-                'current_page' => $product->currentPage(),
-                'has_more_pages' => $product->hasMorePages(),
-                'last_page' => $product->lastPage(),
-                'per_page' => $product->perPage(),
+                'total' => $product_items,
+                'current_page' => $products->currentPage(),
+                'has_more_pages' => $products->hasMorePages(),
+                'last_page' => $products->lastPage(),
+                'per_page' => $products->perPage(),
             ],
         ]);
     }
@@ -76,17 +83,14 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductStoreRequest $request) //request, images required
+    public function store(ProductStoreRequest $request)
     {
-        $product = Product::create(array_merge($request->except('images'), [
+        $product = Product::create(array_merge($request->except(['images', 'gifts']), [
             'user_id' => $request->user()->id,
         ]));
-        foreach ($request->images as $image) {
-            $product->images()->create([
-                'path' => $this->uploadFile($image, 'products\images'),
-            ]);
-        }
-        return $this->Result(200, $product->load('images'));
+        $this->storeImages($product, $request->images);
+        $this->storeGifts($product, $request->gifts);
+        return $this->Result(200, ['product_id' => $product->id]);
     }
 
     /**
@@ -97,14 +101,41 @@ class ProductController extends Controller
         $product = Product::with('images')
             ->withCount('reviews')
             ->withAvg('reviews', 'rate')
-            ->where('products.id', $product->id)->first();
-        $similar = Product::with('images')->orderByRaw("ABS(price - $product->price) ")
-        ->take(5)
-        ->get();
-        return $this->Result(200, [
-            'product' => $product,
-            'similar' => $similar,
-        ]);
+            ->where('products.id', $product->id)
+            ->first();
+        $similar = Product::with('images')
+            ->whereNot('products.id', $product->id)
+            ->orderByRaw("ABS(price - $product->price) ")
+            ->take(5)
+            ->get();
+        $gifts = ProductGift::query()
+            ->where('main_product_id', $product->id)
+            ->with('gift_product.images')
+            ->get()
+            ->pluck('gift_product');
+        return $this->Result(200, compact([
+            'product',
+            'gifts',
+            'similar',
+        ]));
+    }
+
+    public function placeholders(Request $request)
+    {
+        $brands = Brand::all();
+        $categories = Category::query()
+            ->where('type', $request->type)
+            ->get();
+        $gifts = Product::query()
+            ->with('images')
+            ->where('user_id', auth()->id())
+            ->get();
+
+        return $this->Result(200, compact([
+            'categories',
+            'brands',
+            'gifts',
+        ]));
     }
 
     /**
@@ -112,15 +143,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product->update($request->except('images'));
-        if ($request->images) {
-            foreach ($request->images as $image) {
-                $product->images()->create([
-                    'path' => $this->uploadFile($image, 'products\images'),
-                ]);
-            }
+        $product->update($request->except(['images', 'gifts']));
+        $this->storeImages($product, $request->images);
+        $this->storeGifts($product, $request->gifts);
+        return $this->Result(200);
+    }
+
+    public function storeImages(Product $product, $images)
+    {
+        foreach ($images as $image) {
+            $product->images()->create([
+                'path' => $this->uploadFile($image, 'products\images'),
+            ]);
         }
-        return $this->Result(200, $product->load('images'));
+    }
+    public function storeGifts(Product $product, $gifts)
+    {
+        foreach ($gifts as $gift_product_id) {
+            $product->gifts()->create([
+                'gift_product_id' => $gift_product_id,
+            ]);
+        }
     }
 
     /**
@@ -132,9 +175,18 @@ class ProductController extends Controller
         return $this->Result(200);
     }
 
-    public function deleteImage(Image $image)
+    public function deleteImage($product, Image $image)
     {
         $image->delete();
+        return $this->Result(200);
+    }
+    public function deleteGift($product, $gift)
+    {
+        ProductGift::query()
+            ->where('main_product_id', $product)
+            ->where('gift_product_id', $gift)
+            ->delete();
+
         return $this->Result(200);
     }
 }

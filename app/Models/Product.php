@@ -31,6 +31,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function gifts()
+    {
+        return $this->hasMany(ProductGift::class, 'main_product_id');
+    }
+
     protected $casts = [
         'category_id' => 'integer',
         'price' => 'integer',

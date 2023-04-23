@@ -43,8 +43,13 @@ class UserController extends Controller
                 'category',
             ])
             ->withCount('reviews')
+            ->withCount('gifts')
             ->withAvg('reviews', 'rate')
-            ->get();
+            ->get()
+            ->map(function ($product) {
+                $product['has_gifts'] = $product['gifts_count'] > 0;
+                return $product;
+            });
         return $this->Result(200, [
             'products' => $products->where('category.type', 'product'),
             'services' => $products->where('category.type', 'service'),

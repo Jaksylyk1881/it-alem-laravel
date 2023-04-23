@@ -22,7 +22,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $products = Product::query()->orderByDesc('id')->paginate();
 
-        return view('admin.pages.products.index', compact([
+        return view('admin.pages.products', compact([
             'users',
             'brands',
             'categories',
@@ -55,7 +55,7 @@ class ProductController extends Controller
         foreach ($images as $image) {
             Image::create([
                 'product_id' => $product->id,
-                'path' => $this->uploadFile($image, 'product')
+                'path' => $this->uploadFile($image, 'products/images')
             ]);
         }
     }

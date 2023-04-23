@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,10 +20,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::prefix('admin')->as('admin.')->group(function () {
+    Route::view( 'home','admin.pages.home')->name('home');
 
     Route::get('user/delete/image/{image}', [UserController::class, 'destroyImage'])->name('user.destroy.image');
     Route::resource('user', UserController::class);
+
     Route::resource('product', ProductController::class);
     Route::get('product/delete/image/{image}', [ProductController::class, 'destroyImage'])->name('product.destroy.image');
-    Route::view( 'home','admin.pages.home')->name('home');
+
+    Route::get('product/{product}/review', [ReviewController::class, 'index'])->name('product.review.index');
+    Route::delete('product/{product}/review/{review}', [ReviewController::class, 'destroy'])->name('product.review.destroy');
 });

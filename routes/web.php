@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
@@ -30,4 +32,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
     Route::get('product/{product}/review', [ReviewController::class, 'index'])->name('product.review.index');
     Route::delete('product/{product}/review/{review}', [ReviewController::class, 'destroy'])->name('product.review.destroy');
+
+    Route::resource('brand', BrandController::class);
+    Route::resource('category', CategoryController::class);
 });

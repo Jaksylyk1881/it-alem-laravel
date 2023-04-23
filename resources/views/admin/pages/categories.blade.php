@@ -1,16 +1,16 @@
 @extends('admin.layouts.index')
 
-@section('title', 'Бренды')
+@section('title', 'Категорий')
 
 @section('top_right_content')
     <div class="offset-lg-10 btn-lg">
-        <a type="button"  data-bs-toggle="modal" data-bs-target="#AddNewBrand">
+        <a type="button"  data-bs-toggle="modal" data-bs-target="#AddNewCategory">
             Создать
         </a>
     </div>
 
-    <!--Add form new brand-->
-    <div class="modal fade" id="AddNewBrand" tabindex="-3" aria-labelledby="AddNewBrand" aria-hidden="true">
+    <!--Add form new category-->
+    <div class="modal fade" id="AddNewCategory" tabindex="-3" aria-labelledby="AddNewCategory" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -18,10 +18,32 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ">
-                    <form method="post"  enctype="multipart/form-data"  action="{{route('admin.brand.store')}}">
+                    <form method="post"  enctype="multipart/form-data"  action="{{route('admin.category.store')}}">
                         @csrf
                         <div class="input-group mb-2 col-lg-18">
                             <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3 " >
+                            <label style="font-style: italic;padding: 0px 4px">Загрузите изобрежение</label>
+                            <input type="file" name="image">
+                        </div>
+                        <div class="  mb-2 col-lg-18 offset-lg-18">
+                            <p style="padding: 5px"></p>
+                            <label >Тип</label>
+                            <select name="type" id="" style="color: #232c4d">
+                                <option value="1">client</option>
+                                <option value="2">company</option>
+                            </select>
+                        </div>
+                        <div class="  mb-2 col-lg-18 offset-lg-18">
+                            <p style="padding: 5px"></p>
+                            <label >Подкатегория</label>
+                            <select name="parent_id" id="" style="color: #232c4d">
+                                <option value="">Не выбрано</option>
+                                @foreach($categories as $v)
+                                    <option value="{{$v->id}}">{{$v->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="align-content-end input-group mb-2 col-lg-18 offset-lg-8  ">
                             <button type="submit" class=" btn-success">Добавить</button>
@@ -54,21 +76,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($brands as $brand)
+                        @foreach ($categories as $category)
                             <tr>
                                 <td>
-                                    {{ $brand->id}}
+                                    {{ $category->id}}
                                 </td>
                                 <td>
-                                    {{$brand->name}}
+                                    {{$category->name}}
                                 </td>
                                 <td class="text-center">
-                                    <!-- Button trigger Brand Edit -->
-                                    <a href="#"  type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#BrandEdit{{$brand->id}}">
+                                    <!-- Button trigger Category Edit -->
+                                    <a href="#"  type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#CategoryEdit{{$category->id}}">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    <!-- Form Brand Edit -->
-                                    <div class="modal fade" id="BrandEdit{{$brand->id}}" tabindex="-3" aria-labelledby="BrandEdit{{$brand->id}}" aria-hidden="true">
+                                    <!-- Form Category Edit -->
+                                    <div class="modal fade" id="CategoryEdit{{$category->id}}" tabindex="-3" aria-labelledby="CategoryEdit{{$category->id}}" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -76,11 +98,28 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body ">
-                                                    <form method="post"  enctype="multipart/form-data"  action="{{route('admin.brand.update' , $brand->id)}}">
+                                                    <form method="post"  enctype="multipart/form-data"  action="{{route('admin.category.update' , $category->id)}}">
                                                         @csrf
                                                         @method('PUT')
                                                         <div class="input-group mb-2 col-lg-18">
-                                                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " value="{{$brand->name}}" aria-describedby="basic-addon1">
+                                                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " value="{{$category->name}}" aria-describedby="basic-addon1">
+                                                        </div>
+                                                        <div class="input-group mb-2 col-lg-18">
+                                                            <img src="{{$category->image}}" class="w-100 mb-4">
+                                                        </div>
+                                                        <div class="input-group mb-3 " >
+                                                            <label style="font-style: italic;padding: 0px 4px">Загрузите новое изобрежение</label>
+                                                            <input type="file" name="image">
+                                                        </div>
+                                                        <div class="input-group mb-2 col-lg-18 offset-lg-18">
+                                                            <p style="padding: 5px"></p>
+                                                            <label >Подкатегория</label>
+                                                            <select name="parent_id" id="" style="color: #232c4d">
+                                                                <option value="">Не выбрано</option>
+                                                                @foreach($categories as $v)
+                                                                    <option value="{{$v->id}}" @selected($v->id == $category->parent_id)>{{$v->name}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                         <div class="align-content-end input-group mb-2 col-lg-18 offset-lg-8  ">
                                                             <button type="submit" class="btn-warning">Изменить</button>
@@ -91,8 +130,8 @@
                                         </div>
                                     </div>
 
-                                    <!--Brand Delete -->
-                                    <form action="{{route('admin.brand.destroy', $brand->id)}}" method="POST"  class="d-inline-block">
+                                    <!--Category Delete -->
+                                    <form action="{{route('admin.category.destroy', $category->id)}}" method="POST"  class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm delete-btn" href="#">
@@ -109,7 +148,7 @@
             </div>
             <div class="switch" style="padding: 30px 0;text-align: center;">
                 <div class="switch-nav" style="margin: 0 auto;display: table;">
-                    {!! $brands->appends(['sort' => 'id'])->links() !!}
+                    {!! $categories->appends(['sort' => 'id'])->links() !!}
                 </div>
             </div>
             <!-- /.row (main row) -->

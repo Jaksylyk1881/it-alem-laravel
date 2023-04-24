@@ -99,6 +99,15 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="{{route('admin.logout')}}" class="nav-link mb-3">
+                            <i class="nav-icon fas fa fa-sign-out-alt"></i>
+                            <p>
+                                Выйти
+                            </p>
+                        </a>
+                    </li>
+
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

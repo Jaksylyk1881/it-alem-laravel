@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Address;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -15,6 +14,11 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         //client
+        User::factory()->create([
+            'phone' => 'admin',
+            'password' => bcrypt('admin'),
+            'is_admin' => 1,
+        ]);
         $user = User::factory()->create()->first();
         $user->addresses()->save(Address::factory()->createOne());
 

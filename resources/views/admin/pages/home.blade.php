@@ -14,14 +14,14 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{$item_count ?? ''}}</h3>
+                            <h3>{{$product_count ?? ''}}</h3>
 
-                            <p>Объектов</p>
+                            <p>Товаров/Услуг</p>
                         </div>
                         <div class="icon">
-                            <i class="fa fa-building"></i>
+                            <i class="fa fa-th"></i>
                         </div>
-                        <a href="{{''}}" class="small-box-footer">Подробнее <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{route('admin.product.index')}}" class="small-box-footer">Подробнее <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@
                         <div class="icon">
                             <i class="fa fa-user"></i>
                         </div>
-                        <a href="{{''}}" class="small-box-footer">Подробнее<i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{route('admin.user.index')}}" class="small-box-footer">Подробнее<i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -46,13 +46,13 @@
                     <!-- small box -->
                     <div class="small-box bg-secondary">
                         <div class="inner">
-                            <h3>{{$order_call_count ?? ''}}</h3>
-                            <p>Сообщений</p>
+                            <h3>{{$order_count ?? ''}}</h3>
+                            <p>Заказов</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-phone"></i>
                         </div>
-                        <a href="{{''}}" class="small-box-footer">Подробнее<i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{route('admin.order.index')}}" class="small-box-footer">Подробнее<i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -23,8 +24,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::prefix('admin')->as('admin.')->group(function () {
-    Route::view( 'home','admin.pages.home')->name('home');
+
+Route::view('admin/login', 'admin.pages.login')->name('admin.auth');
+Route::post('admin/login', [AuthController::class, 'login'])->name('admin.login');
+Route::get('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+Route::prefix('admin')->as('admin.')->middleware('auth:sanctum')->group(function () {
+    Route::get( 'home',[AuthController::class, 'home'])->name('home');
 
     Route::get('user/delete/image/{image}', [UserController::class, 'destroyImage'])->name('user.destroy.image');
     Route::resource('user', UserController::class);

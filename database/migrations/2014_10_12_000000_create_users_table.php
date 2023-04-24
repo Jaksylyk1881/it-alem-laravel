@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('type', ['client', 'company'])->default('client');
             $table->unsignedBigInteger('address_id')->nullable();
             $table->string('access_token')->nullable();
+            $table->boolean('is_admin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

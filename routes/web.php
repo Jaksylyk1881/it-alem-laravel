@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
@@ -35,4 +37,8 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
     Route::resource('brand', BrandController::class);
     Route::resource('category', CategoryController::class);
+    Route::resource('banner', BannerController::class);
+    Route::resource('order', OrderController::class);
+    Route::get('order/{order}/product', [OrderController::class, 'products'])->name('order_product.index');
+    Route::delete('order/product/{order_product}', [OrderController::class, 'destroyProduct'])->name('order_product.destroy');
 });

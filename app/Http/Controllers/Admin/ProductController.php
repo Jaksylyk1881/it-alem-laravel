@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\ProductGift;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -35,8 +36,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create($request->except('images'));
-        $this->storeImages($product, $request->images);
+        $product = Product::create($request->except(['images','gifts']));
+        $this->storeImages($product, $request->images ?? []);
+        $this->storeGifts($product, $request->gifts ?? []);
         return back()->withSuccess('Успешно');
     }
 
@@ -45,8 +47,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product->update($request->except('images'));
-        $this->storeImages($product, $request->images);
+        $product->update($request->except(['images','gifts']));
+        $this->storeImages($product, $request->images ?? []);
+        $this->storeGifts($product, $request->gifts ?? []);
         return back()->withSuccess('Успешно');
     }
 
@@ -56,6 +59,15 @@ class ProductController extends Controller
             Image::create([
                 'product_id' => $product->id,
                 'path' => $this->uploadFile($image, 'products/images')
+            ]);
+        }
+    }
+    private function storeGifts(Product $product, $gifs)
+    {
+        foreach ($gifs as $gif) {
+            ProductGift::create([
+                'main_product_id' => $product->id,
+                'gift_product_id' => $gif
             ]);
         }
     }
@@ -72,6 +84,11 @@ class ProductController extends Controller
     public function destroyImage(Image $image)
     {
         $image->delete();
+        return back()->withSuccess('Успешно');
+    }
+    public function destroyGift(ProductGift $gift)
+    {
+        $gift->delete();
         return back()->withSuccess('Успешно');
     }
 }

@@ -69,6 +69,16 @@
                             <input type="file" name="images[]" multiple>
                         </div>
 
+                        <div class="  mb-2 col-lg-18 offset-lg-18">
+                            <p style="padding: 5px"></p>
+                            <label >Подарок</label>
+                            <select class="select" multiple name="gifts[]" id="">
+                                <option value="">Не выбрано</option>
+                                @foreach($products as $v)
+                                    <option value="{{$v->id}}">{{$v->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="align-content-end input-group mb-2 col-lg-18 offset-lg-8  ">
                             <button type="submit" class=" btn-success">Добавить</button>
                         </div>
@@ -162,6 +172,16 @@
                                                             <input type="text" class="form-control" name="count"  placeholder="Введите количество " value="{{$product->count}}" aria-describedby="basic-addon1">
                                                         </div>
 
+
+                                                        <div class="input-group mb-3 " >
+                                                            <label for="characteristics">Характеристики</label>
+                                                            <textarea name="characteristics" id="characteristics" class="form-control">{{$product->characteristics}}</textarea>
+                                                        </div>
+                                                        <div class="input-group mb-3 " >
+                                                            <label for="description">Описание</label>
+                                                            <textarea name="description" id="description" class="form-control">{{$product->description}}</textarea>
+                                                        </div>
+
                                                         <div class="input-group mb-2 col-lg-18">
                                                             @foreach($product->images()->get() as $image)
                                                                 <div class="row">
@@ -174,6 +194,16 @@
                                                             @endforeach
                                                         </div>
 
+                                                        <div class="input-group mb-3 " >
+                                                            <p style="padding: 5px"></p>
+                                                            <label >Подарок</label>
+                                                            <select class="select" multiple name="gifts[]" id="">
+                                                                <option value="">Не выбрано</option>
+                                                                @foreach($products as $v)
+                                                                    <option value="{{$v->id}}" @selected(in_array($v->id, $product->gifts()->pluck('gift_product_id')->toArray()))>{{$v->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                         <div class="input-group mb-3 " >
                                                             <label style="font-style: italic;padding: 0px 4px">Загрузите новое изобрежение</label>
                                                             <input type="file" name="images[]" multiple>

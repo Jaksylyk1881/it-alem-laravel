@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('gift_product_id')->nullable()->constrained('products')->cascadeOnUpdate()->nullOnDelete();
+            $table->unsignedBigInteger('count')->default(1);
             $table->timestamps();
         });
     }

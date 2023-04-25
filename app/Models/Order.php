@@ -24,4 +24,13 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getProductsPriceAttribute()
+    {
+        $order_products_prices = $this->products()->with('product:id,price')->get()->map(function ($order_products) {
+            $order_products->price =  $order_products->count * $order_products->product->price;
+            return $order_products;
+        })->sum('price');
+        return $order_products_prices;
+    }
 }

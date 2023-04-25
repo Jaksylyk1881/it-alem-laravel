@@ -17,17 +17,14 @@ class UserOrderController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->Result(
-            200,
-            Order::query()
-                ->with([
-                    'address',
-                    'products.product.images',
-                    'products.gift_products.images',
-                ])
-                ->where('user_id', $request->user()->id)
-                ->get()
-        );
+        $orders = auth()->user()->orders()
+            ->with([
+                'address',
+                'products.product.images',
+                'products.gift_products.images',
+            ])
+            ->get();
+        return $this->Result(200, $orders);
     }
 
     /**
@@ -54,6 +51,7 @@ class UserOrderController extends Controller
                 'order_id' => $order->id,
                 'product_id' => $basket->product_id,
                 'gift_product_id' => $basket->gift_product_id,
+                'count' => $basket->count,
             ]);
 
         }

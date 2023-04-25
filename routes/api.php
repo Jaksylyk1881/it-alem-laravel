@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\UserBasketController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserOrderController;
 use App\Http\Controllers\Api\UserReviewController;
+use App\Http\Controllers\Api\UserCompanyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,11 @@ Route::get('category', [CategoryController::class, 'index']);
 Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::put('/', [UserController::class, 'update']);
+
+    Route::get('company/order', [UserCompanyController::class, 'index']);
+    Route::get('company/order/{order}', [UserCompanyController::class, 'show']);
+    Route::put('company/order/{order}', [UserCompanyController::class, 'update']);
+
     Route::get('/product', [UserController::class, 'products']);
     Route::get('/product/placeholders', [ProductController::class, 'placeholders']);
     Route::delete('products/{product}/image/{image}', [ProductController::class, 'deleteImage']);
@@ -57,6 +63,8 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('basket', UserBasketController::class)->only(['index', 'store', 'update','destroy']);
     Route::apiResource('order', UserOrderController::class)->only(['index', 'show', 'store']);
     Route::apiResource('address', UserAddressController::class)->only(['index', 'store', 'destroy']);
+    Route::apiResource('company', UserCompanyController::class)->only(['index', 'show']);
+
 
     Route::post('review', [UserReviewController::class, 'store']);
 });

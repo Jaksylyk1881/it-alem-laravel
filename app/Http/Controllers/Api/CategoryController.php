@@ -12,8 +12,8 @@ class CategoryController extends Controller
     {
         $categories = Category::with('children')->get();
         return $this->Result(200, [
-            'products' => $categories->where('type', 'product'),
-            'services' => $categories->where('type', 'service'),
+            'products' => $categories->where('type', 'product')->values(),
+            'services' => $categories->where('type', 'service')->values(),
         ]);
     }
 }

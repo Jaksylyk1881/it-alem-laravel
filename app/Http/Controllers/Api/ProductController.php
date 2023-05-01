@@ -159,7 +159,7 @@ class ProductController extends Controller
     }
     public function storeGifts(Product $product, $gifts)
     {
-        foreach ($gifts as $gift_product_id) {
+        foreach ($gifts ?? [] as $gift_product_id) {
             $product->gifts()->create([
                 'gift_product_id' => $gift_product_id,
             ]);

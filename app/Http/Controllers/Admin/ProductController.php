@@ -20,8 +20,8 @@ class ProductController extends Controller
     {
         $users = User::all();
         $brands = Brand::all();
-        $categories = Category::all();
         $products = Product::query()->orderByDesc('id')->paginate();
+        $categories = Category::query()->selectRaw('id, CONCAT(name, "[", type, "]") as name')->get();
 
         return view('admin.pages.products', compact([
             'users',

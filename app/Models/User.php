@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this->hasMany(Basket::class);
     }
 
+    public function shop_address()
+    {
+        return $this->belongsTo(Address::class, 'address_id');
+    }
+
     public function addresses()
     {
         return $this->hasMany(Address::class);
@@ -60,9 +65,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Image::class);
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function shop_orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
 }

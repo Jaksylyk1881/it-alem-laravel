@@ -17,7 +17,7 @@ class PersonalAccessTokenSeeder extends Seeder
     {
         DB::table('personal_access_tokens')->insert([
             'tokenable_type' => 'App\Models\User',
-            'tokenable_id' => User::factory()->create()->value('id'),
+            'tokenable_id' => User::first()->id ?? User::factory()->create()->value('id'),
             'name' => 'auth',
             'token' => hash('sha256', '8PAnyHJ3eyUJl0rH6UMY4PxP6ZoILKL6UBnHGdaQ'),
             'abilities' => '["auth"]',

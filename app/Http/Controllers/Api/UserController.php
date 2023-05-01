@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->Result(200, $request->user());
+        return $this->Result(200, $request->user()->load(['addresses', 'shop_address']));
     }
 
     /**

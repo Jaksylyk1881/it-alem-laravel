@@ -13,12 +13,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        //client
         User::factory()->create([
             'phone' => 'admin',
             'password' => bcrypt('admin'),
             'is_admin' => 1,
         ]);
+        //client
         $user = User::factory()->create()->first();
         $user->addresses()->save(Address::factory()->createOne());
 

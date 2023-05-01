@@ -29,6 +29,14 @@
                         </div>
                         <div class="  mb-2 col-lg-18 offset-lg-18">
                             <p style="padding: 5px"></p>
+                            <label >Тип</label>
+                            <select name="type" id="" style="color: #232c4d">
+                                <option value="product">product</option>
+                                <option value="service">service</option>
+                            </select>
+                        </div>
+                        <div class="  mb-2 col-lg-18 offset-lg-18">
+                            <p style="padding: 5px"></p>
                             <label >Подкатегория</label>
                             <select name="parent_id" id="" style="color: #232c4d">
                                 <option value="">Не выбрано</option>
@@ -102,6 +110,14 @@
                                                         <div class="input-group mb-3 " >
                                                             <label style="font-style: italic;padding: 0px 4px">Загрузите новое изобрежение</label>
                                                             <input type="file" name="image">
+                                                        </div>
+                                                        <div class="input-group mb-2 col-lg-18 offset-lg-18">
+                                                            <p style="padding: 5px"></p>
+                                                            <label >Тип</label>
+                                                            <select name="type" id="" style="color: #232c4d">
+                                                                <option value="product" @selected('product' == $category->type)>product</option>
+                                                                <option value="service" @selected('service' == $category->type)>service</option>
+                                                            </select>
                                                         </div>
                                                         <div class="input-group mb-2 col-lg-18 offset-lg-18">
                                                             <p style="padding: 5px"></p>

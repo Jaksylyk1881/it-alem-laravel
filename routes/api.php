@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserAddressController;
 use App\Http\Controllers\Api\UserBasketController;
@@ -58,13 +59,14 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::delete('products/{product}/image/{image}', [ProductController::class, 'deleteImage']);
     Route::delete('products/{product}/gift/{gift}', [ProductController::class, 'deleteGift']);
     Route::apiResource('product', ProductController::class)->only(['store', 'update', 'destroy']);
+    Route::delete('favorite/{product_id}', [FavoriteController::class, 'destroy']);
 
     Route::delete('basket/clear', [UserBasketController::class, 'clear']);
     Route::apiResource('basket', UserBasketController::class)->only(['index', 'store', 'update','destroy']);
     Route::apiResource('order', UserOrderController::class)->only(['index', 'show', 'store']);
     Route::apiResource('address', UserAddressController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('company', UserCompanyController::class)->only(['index', 'show']);
-
+    Route::apiResource('favorite', FavoriteController::class)->only('index', 'store');
 
     Route::post('review', [UserReviewController::class, 'store']);
 });

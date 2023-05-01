@@ -11,6 +11,10 @@ class Product extends Model
 
     protected $guarded = [];
 
+    protected $appends = [
+        'is_favorite',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -34,6 +38,14 @@ class Product extends Model
     public function gifts()
     {
         return $this->hasMany(ProductGift::class, 'main_product_id');
+    }
+
+    public function getIsFavoriteAttribute()
+    {
+        if(!auth()->hasUser()) {
+            return false;
+        }
+        return auth()->user()->favorites()->where('product_id', $this->id)->exists();
     }
 
     protected $casts = [

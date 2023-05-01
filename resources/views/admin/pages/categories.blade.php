@@ -14,7 +14,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Добавьте пользаветеля</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Добавьте категорию</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ">
@@ -24,16 +24,8 @@
                             <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3 " >
-                            <label style="font-style: italic;padding: 0px 4px">Загрузите изобрежение</label>
+                            <label style="font-style: italic;padding: 0px 4px">Загрузите изображение</label>
                             <input type="file" name="image">
-                        </div>
-                        <div class="  mb-2 col-lg-18 offset-lg-18">
-                            <p style="padding: 5px"></p>
-                            <label >Тип</label>
-                            <select name="type" id="" style="color: #232c4d">
-                                <option value="1">client</option>
-                                <option value="2">company</option>
-                            </select>
                         </div>
                         <div class="  mb-2 col-lg-18 offset-lg-18">
                             <p style="padding: 5px"></p>

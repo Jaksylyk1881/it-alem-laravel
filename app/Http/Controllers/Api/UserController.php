@@ -51,8 +51,8 @@ class UserController extends Controller
                 return $product;
             });
         return $this->Result(200, [
-            'products' => $products->where('category.type', 'product'),
-            'services' => $products->where('category.type', 'service'),
+            'products' => $products->where('category.type', 'product')->values(),
+            'services' => $products->where('category.type', 'service')->values(),
         ]);
     }
 }

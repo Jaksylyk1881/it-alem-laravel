@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\ProductController;
@@ -40,6 +41,10 @@ Route::prefix('auth')->group(function() {
 Route::prefix('product')->group(function () {
     Route::get('form-values', [ProductController::class, 'searchFormValues']);
     Route::get('company/{company}', [CompanyController::class, 'show']);
+    Route::post('company/{company}', [UserReviewController::class, 'companyStore'])->middleware('auth:sanctum');
+
+    Route::get('{product}/review', [UserReviewController::class, 'index']);
+    Route::post('{product}/review', [UserReviewController::class, 'store'])->middleware('auth:sanctum');
 });
 Route::apiResource('product', ProductController::class)->only(['index', 'show']);
 
@@ -67,7 +72,5 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('address', UserAddressController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('company', UserCompanyController::class)->only(['index', 'show']);
     Route::apiResource('favorite', FavoriteController::class)->only('index', 'store');
-
-    Route::post('review', [UserReviewController::class, 'store']);
 });
 

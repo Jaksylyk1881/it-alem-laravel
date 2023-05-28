@@ -32,7 +32,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::with('images')
+        $products = Product::with(['images', 'category'])
             ->withCount('reviews')
             ->withCount('gifts')
             ->withAvg('reviews', 'rate');
@@ -65,7 +65,11 @@ class ProductController extends Controller
             })
             ->when($request->category_id, function ($query) use ($request) {
                 $query->where('products.category_id', $request->category_id);
-            });
+            })
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('products.name', 'like', "%$request->search%");
+            })
+        ;
         $products = $products->paginate(10);
         $product_items = array_map(function(Product $product) {
             $product['has_gifts'] = $product['gifts_count'] > 0;
@@ -101,7 +105,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product = Product::with('images')
+        $product = Product::with(['images', 'user'])
             ->withCount('reviews')
             ->withAvg('reviews', 'rate')
             ->where('products.id', $product->id)

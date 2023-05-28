@@ -37,7 +37,7 @@ class ProductController extends Controller
             ->withCount('gifts')
             ->withAvg('reviews', 'rate');
         //sort
-        switch ($request->get('sort', 'id')) {
+        switch ($request->get('sort', 'created_at')) {
             case 'new':
                 $products->orderBy('created_at', 'desc');
                 break;
@@ -54,14 +54,17 @@ class ProductController extends Controller
                 $products->orderBy('reviews_count', 'DESC');
                 break;
         }
-        $products->when($request->price_start, function ($query) use ($request){
-                $query->where('price', '>=', $request->price_start);
-            })
-            ->when($request->price_end, function ($query) use ($request){
+        $products->when($request->price_start, function ($query) use ($request) {
+            $query->where('price', '>=', $request->price_start);
+        })
+            ->when($request->price_end, function ($query) use ($request) {
                 $query->where('price', '<=', $request->price_end);
             })
-            ->when($request->brand_id, function ($query) use ($request){
+            ->when($request->brand_id, function ($query) use ($request) {
                 $query->where('brand_id', $request->brand_id);
+            })
+            ->when($request->category_id, function ($query) use ($request) {
+                $query->where('products.category_id', $request->category_id);
             });
         $products = $products->paginate(10);
         $product_items = array_map(function(Product $product) {

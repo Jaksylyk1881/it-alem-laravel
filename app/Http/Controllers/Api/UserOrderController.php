@@ -39,7 +39,7 @@ class UserOrderController extends Controller
 
         $order = Order::create([
             'user_id' => $request->user()->id,
-            'address_id' => Address::find($request->address_id)->id,
+            'address_id' => Address::find($request->address_id)->id ?? null,
             'delivery_type' => $request->delivery_type,
             'payment_type' => $request->payment_type,
             'description' => $request->description,

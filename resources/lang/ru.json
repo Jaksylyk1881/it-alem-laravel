@@ -51,7 +51,6 @@
     "buy_item": "Купить объект",
     "sell_item": "Продать объект",
     "job": "Вакансия",
-    "service": "Услуга",
     "question": "Вопрос",
     "complaint": "Жалоба",
     "Confirmation code": "Код подтверждения",
@@ -71,6 +70,8 @@
     "instagram": "инстаграм",
     "telegram": "телеграмма",
     "gmail": "Gmail",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
 
+    "product": "Продукт",
+    "service": "Услуга"
 }

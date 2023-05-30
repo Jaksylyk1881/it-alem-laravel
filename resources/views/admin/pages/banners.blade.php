@@ -21,24 +21,23 @@
                     <form method="post"  enctype="multipart/form-data"  action="{{route('admin.banner.store')}}">
                         @csrf
                         <div class="input-group mb-3 " >
-                            <label style="font-style: italic;padding: 0px 4px">Загрузите изобрежение</label>
-                            <input type="file" name="image">
+                            <label style="font-style: italic;padding: 0px 4px">Загрузите изображение</label>
+                            <input type="file" name="image" required>
                         </div>
                         <div class="input-group mb-3 " >
                             <label style="font-style: italic;padding: 0px 4px">Начало</label>
-                            <input type="date" name="start_date">
+                            <input type="date" name="start_date" required>
                         </div>
                         <div class="input-group mb-3 " >
                             <label style="font-style: italic;padding: 0px 4px">Конец</label>
-                            <input type="date" name="end_date">
+                            <input type="date" name="end_date" required>
                         </div>
                         <div class="  mb-2 col-lg-18 offset-lg-18">
                             <p style="padding: 5px"></p>
                             <label >Категория</label>
                             <select name="category_id" id="" style="color: #232c4d">
-                                <option value="">Не выбрано</option>
                                 @foreach($categories as $v)
-                                    <option value="{{$v->id}}">{{$v->name}}</option>
+                                    <option value="{{$v->id}}">{{$v->name . "[". __($v->type)."]"}} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -102,21 +101,21 @@
                                                             <img src="{{$banner->image}}" class="w-100 mb-4">
                                                         </div>
                                                         <div class="input-group mb-3 " >
-                                                            <label style="font-style: italic;padding: 0px 4px">Загрузите новое изобрежение</label>
+                                                            <label style="font-style: italic;padding: 0px 4px">Загрузите новое изображение</label>
                                                             <input type="file" name="image">
                                                         </div>
                                                         <div class="input-group mb-3 " >
                                                             <label style="font-style: italic;padding: 0px 4px">Начало</label>
-                                                            <input type="date" name="start_date" value="{{$banner->start_date}}">
+                                                            <input type="date" name="start_date" value="{{$banner->start_date}}" required>
                                                         </div>
                                                         <div class="input-group mb-3 " >
                                                             <label style="font-style: italic;padding: 0px 4px">Конец</label>
-                                                            <input type="date" name="end_date" value="{{$banner->end_date}}">
+                                                            <input type="date" name="end_date" value="{{$banner->end_date}}" required>
                                                         </div>
                                                         <div class="input-group mb-2 col-lg-18 offset-lg-18">
                                                             <p style="padding: 5px"></p>
                                                             <label >Подкатегория</label>
-                                                            <select name="category_id" id="" style="color: #232c4d">
+                                                            <select name="category_id" id="" style="color: #232c4d" required>
                                                                 @foreach($categories as $v)
                                                                     <option value="{{$v->id}}" @selected($v->id == $banner->category_id)>{{$v->name}}</option>
                                                                 @endforeach

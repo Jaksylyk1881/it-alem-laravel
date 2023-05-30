@@ -10,7 +10,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="/admin/dist/css/adminlte.min.css">
 </head>
-<body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">
+{{--<body class="sidebar-mini sidebar-closed sidebar-collapse" style="height: auto;">--}}
+<body class="sidebar-mini" style="height: auto;">
 <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -52,7 +53,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item">
                         <a href="{{route('admin.user.index')}}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="nav-icon fas fa-user"></i>
                             <p>
                                 Пользователи
                             </p>
@@ -68,7 +69,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{route('admin.brand.index')}}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="nav-icon fas fa-tags "></i>
                             <p>
                                 Бренд
                             </p>
@@ -76,7 +77,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{route('admin.category.index')}}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="nav-icon fas fa-list-alt"></i>
                             <p>
                                 Категорий
                             </p>
@@ -84,7 +85,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{route('admin.banner.index')}}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="nav-icon fas fa-tv"></i>
                             <p>
                                 Баннеры
                             </p>
@@ -92,7 +93,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{route('admin.order.index')}}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="nav-icon fas fa-history"></i>
                             <p>
                                 История заказов
                             </p>

@@ -48,6 +48,7 @@ Route::prefix('product')->group(function () {
 });
 Route::apiResource('product', ProductController::class)->only(['index', 'show']);
 
+Route::get('company', [CompanyController::class, 'index']);
 Route::get('banner', [BannerController::class, 'index']);
 Route::get('category', [CategoryController::class, 'index']);
 

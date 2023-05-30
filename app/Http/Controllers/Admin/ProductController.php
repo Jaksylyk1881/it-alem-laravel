@@ -64,11 +64,14 @@ class ProductController extends Controller
     }
     private function storeGifts(Product $product, $gifs)
     {
+        $product->gifts()->delete();
         foreach ($gifs as $gif) {
-            ProductGift::create([
-                'main_product_id' => $product->id,
-                'gift_product_id' => $gif
-            ]);
+            if($gif != null) {
+                ProductGift::create([
+                    'main_product_id' => $product->id,
+                    'gift_product_id' => $gif
+                ]);
+            }
         }
     }
 

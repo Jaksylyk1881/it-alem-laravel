@@ -48,13 +48,13 @@
                             </select>
                         </div>
                         <div class="input-group mb-2 col-lg-18">
-                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-2 col-lg-18">
-                            <input type="text" class="form-control" name="price"  placeholder="Введите цену" aria-describedby="basic-addon1">
+                            <input type="number" class="form-control" name="price"  placeholder="Введите цену" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-2 col-lg-18">
-                            <input type="text" class="form-control" name="count"  placeholder="Новый количество" aria-describedby="basic-addon1">
+                            <input type="number" class="form-control" name="count"  placeholder="Новый количество" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="form-group">
                             <label for="characteristics">Характеристики</label>
@@ -163,13 +163,13 @@
                                                             </select>
                                                         </div>
                                                         <div class="input-group mb-2 col-lg-18">
-                                                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " value="{{$product->name}}" aria-describedby="basic-addon1">
+                                                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " value="{{$product->name}}" aria-describedby="basic-addon1" required>
                                                         </div>
                                                         <div class="input-group mb-2 col-lg-18">
-                                                            <input type="text" class="form-control" name="price"  placeholder="Введите цену " value="{{$product->price}}" aria-describedby="basic-addon1">
+                                                            <input type="number" class="form-control" name="price"  placeholder="Введите цену " value="{{$product->price}}" aria-describedby="basic-addon1" required>
                                                         </div>
                                                         <div class="input-group mb-2 col-lg-18">
-                                                            <input type="text" class="form-control" name="count"  placeholder="Введите количество " value="{{$product->count}}" aria-describedby="basic-addon1">
+                                                            <input type="number" class="form-control" name="count"  placeholder="Введите количество " value="{{$product->count}}" aria-describedby="basic-addon1" required>
                                                         </div>
 
 
@@ -187,7 +187,7 @@
                                                                 <div class="row">
                                                                     <div class="col-4">
                                                                         <a href="{{route('admin.product.destroy.image' , $image->id)}}" onclick="return confirm('Вы уверены что хотите удалить?')" class="btn btn-default btn-sm">
-                                                                            <img src="{{$image->path}}" class="w-100 mb-4">
+                                                                            <img src="{{$image->path}}" class="mb-4">
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -206,7 +206,7 @@
                                                         </div>
                                                         <div class="input-group mb-3 " >
                                                             <label style="font-style: italic;padding: 0px 4px">Загрузите новое изобрежение</label>
-                                                            <input type="file" name="images[]" multiple>
+                                                            <input type="file" name="images[]" multiple required>
                                                         </div>
                                                         <div class="align-content-end input-group mb-2 col-lg-18 offset-lg-8  ">
                                                             <button type="submit" class="btn-warning">Изменить</button>

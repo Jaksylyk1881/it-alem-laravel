@@ -21,7 +21,7 @@
                     <form method="post"  enctype="multipart/form-data"  action="{{route('admin.brand.store')}}">
                         @csrf
                         <div class="input-group mb-2 col-lg-18">
-                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1" required>
                         </div>
                         <div class="align-content-end input-group mb-2 col-lg-18 offset-lg-8  ">
                             <button type="submit" class=" btn-success">Добавить</button>
@@ -80,7 +80,7 @@
                                                         @csrf
                                                         @method('PUT')
                                                         <div class="input-group mb-2 col-lg-18">
-                                                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " value="{{$brand->name}}" aria-describedby="basic-addon1">
+                                                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " value="{{$brand->name}}" aria-describedby="basic-addon1" required>
                                                         </div>
                                                         <div class="align-content-end input-group mb-2 col-lg-18 offset-lg-8  ">
                                                             <button type="submit" class="btn-warning">Изменить</button>

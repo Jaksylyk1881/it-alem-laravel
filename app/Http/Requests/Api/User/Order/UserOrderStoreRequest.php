@@ -24,7 +24,7 @@ class UserOrderStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address_id' => 'required|exists:addresses,id',
+            'address_id' => 'exists:addresses,id',
             'delivery_type' => 'required|in:' . implode(',', Order::DELIVERY_TYPE),
             'payment_type' => 'required|in:' . implode(',', Order::PAYMENT_TYPE),
             'description' => 'required|string',

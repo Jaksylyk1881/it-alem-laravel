@@ -14,7 +14,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Добавьте пользаветеля</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Добавьте пользователя</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ">
@@ -29,17 +29,17 @@
                             </select>
                         </div>
                         <div class="input-group mb-2 col-lg-18">
-                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-2 col-lg-18">
-                            <input type="text" class="form-control" name="phone"  placeholder="Введите телефон" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="phone"  placeholder="Введите телефон" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-2 col-lg-18">
-                            <input type="text" class="form-control" name="password"  placeholder="Новый пароль" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="password"  placeholder="Новый пароль" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3 " >
                             <label style="font-style: italic;padding: 0px 4px">Загрузите аватар</label>
-                            <input type="file" name="avatar">
+                            <input type="file" name="avatar" required>
                         </div>
                         <div class="form-group">
                             <hr>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="input-group mb-3 " >
-                            <label style="font-style: italic;padding: 0px 4px">Загрузите изобрежение компаний</label>
+                            <label style="font-style: italic;padding: 0px 4px">Загрузите изображение компаний</label>
                             <input type="file" name="images[]" multiple>
                         </div>
 
@@ -147,10 +147,10 @@
                                                             </select>
                                                         </div>
                                                         <div class="input-group mb-2 col-lg-18">
-                                                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " value="{{$user->name}}" aria-describedby="basic-addon1">
+                                                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " value="{{$user->name}}" aria-describedby="basic-addon1" required>
                                                         </div>
                                                         <div class="input-group mb-2 col-lg-18">
-                                                            <input type="text" class="form-control" name="phone"  placeholder="Введите телефон " value="{{$user->phone}}" aria-describedby="basic-addon1">
+                                                            <input type="text" class="form-control" name="phone"  placeholder="Введите телефон " value="{{$user->phone}}" aria-describedby="basic-addon1" required>
                                                         </div>
                                                         <div class="input-group mb-2 col-lg-18">
                                                             <input type="text" class="form-control" name="password"  placeholder="Введите пароль " value="" aria-describedby="basic-addon1">

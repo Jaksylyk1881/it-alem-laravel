@@ -42,7 +42,7 @@
 
                 <div class="input-group mb-3">
                     <input name="phone"
-                           placeholder="Email"
+                           placeholder="Логин"
                            class="form-control" required>
                     <div class="input-group-append">
                         <div class="input-group-text"><span class="fas fa-phone"></span></div>
@@ -55,7 +55,7 @@
                 <div class="input-group mb-3">
                     <input type="password"
                            name="password"
-                           placeholder="Паспорт"
+                           placeholder="Пароль"
                            class="form-control @error('password') is-invalid @enderror" required>
                     <div class="input-group-append">
                         <div class="input-group-text">

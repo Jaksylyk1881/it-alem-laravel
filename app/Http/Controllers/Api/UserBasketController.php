@@ -25,7 +25,7 @@ class UserBasketController extends Controller
             ])
             ->get();
         return $this->Result(200, [
-            'total_price' => $basket_products->sum('product.price'),
+            'total_price' => $basket_products->map(fn ($q) => $q->count * $q->product->price)->sum(),
             'total_count' => $basket_products->sum('count'),
             'products' => $basket_products,
         ]);

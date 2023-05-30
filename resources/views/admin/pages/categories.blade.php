@@ -21,11 +21,11 @@
                     <form method="post"  enctype="multipart/form-data"  action="{{route('admin.category.store')}}">
                         @csrf
                         <div class="input-group mb-2 col-lg-18">
-                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="name"  placeholder="Введите имя " aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3 " >
                             <label style="font-style: italic;padding: 0px 4px">Загрузите изображение</label>
-                            <input type="file" name="image">
+                            <input type="file" name="image" required>
                         </div>
                         <div class="  mb-2 col-lg-18 offset-lg-18">
                             <p style="padding: 5px"></p>

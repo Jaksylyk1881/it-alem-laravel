@@ -42,16 +42,27 @@ class Product extends Model
 
     public function getIsFavoriteAttribute()
     {
-        if(!auth()->hasUser()) {
+        if(!auth('sanctum')->id()) {
             return false;
         }
-        return auth()->user()->favorites()->where('product_id', $this->id)->exists();
+        return auth('sanctum')->user()->favorites()->where('product_id', $this->id)->exists();
     }
 
+    public function getIsBasketAttribute()
+    {
+        if(!auth('sanctum')->id()) {
+            return false;
+        }
+        return auth('sanctum')->user()
+            ->baskets()
+            ->where('product_id', $this->id)
+            ->exists();
+    }
     protected $casts = [
         'category_id' => 'integer',
         'price' => 'integer',
         'count' => 'integer',
         'brand_id' => 'integer',
+        'reviews_avg_rate' => 'double',
     ];
 }

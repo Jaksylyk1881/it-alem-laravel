@@ -31,16 +31,16 @@
                         @foreach ($orders as $order)
                             <tr>
                                 <td>
-                                    {{ $order->id}}
+                                    {{ $order->id ?? ''}}
                                 </td>
                                 <td>
-                                    {{$order->user->name}}
+                                    {{$order->user->name ?? ''}}
                                 </td>
                                 <td>
-                                    {{$order->products[0]->product->user->name}}
+                                    {{$order->products[0]->product->user->name ?? ''}}
                                 </td>
                                 <td>
-                                    {{$order->created_at}}
+                                    {{$order->created_at ?? ''}}
                                 </td>
                                 <td class="text-center">
                                     <!-- Button trigger Review Edit -->
@@ -57,12 +57,12 @@
                                                 </div>
                                                 <div class="modal-body ">
                                                     <div class="input-group mb-2 col-lg-18">
-                                                        <label>Адресс</label>
-                                                        <input type="text" class="form-control" name="name"  placeholder="Введите " value="{{$order->address->name}}" aria-describedby="basic-addon1">
+                                                        <label>Адрес</label>
+                                                        <input type="text" class="form-control" name="name"  placeholder="Введите " value="{{$order->address->name}}" aria-describedby="basic-addon1" readonly>
                                                     </div>
                                                     <div class="input-group mb-2 col-lg-18">
                                                         <label>Пользователь</label>
-                                                        <input type="text" class="form-control" name="price"  placeholder="Введите  " value="{{$order->user->name}}" aria-describedby="basic-addon1">
+                                                        <input type="text" class="form-control" name="price"  placeholder="Введите  " value="{{$order->user->name}}" aria-describedby="basic-addon1" readonly>
                                                     </div>
                                                     <div class="  mb-2 col-lg-18 offset-lg-18">
                                                         <p style="padding: 5px"></p>
@@ -82,7 +82,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="description">Текст</label>
-                                                        <textarea name="description" id="description" class="form-control">{{$order->description}}</textarea>
+                                                        <textarea name="description" id="description" class="form-control" readonly>{{$order->description}}</textarea>
                                                     </div>
                                                 </div>
                                             </div>

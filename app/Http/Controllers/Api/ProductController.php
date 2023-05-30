@@ -71,14 +71,11 @@ class ProductController extends Controller
             })
         ;
         $products = $products->paginate(10);
-        $product_items = array_map(function(Product $product) {
-            $product['has_gifts'] = $product['gifts_count'] > 0;
-            unset($product['gifts_count']);
-        }, $products->items());
+        $product_items = $products->append(['is_basket']);
         return $this->Result(200, [
-            'items' => $products->items(),
+            'items' => $product_items,
             'pagination' => [
-                'total' => $product_items,
+                'total' => $products->total(),
                 'current_page' => $products->currentPage(),
                 'has_more_pages' => $products->hasMorePages(),
                 'last_page' => $products->lastPage(),
@@ -109,7 +106,8 @@ class ProductController extends Controller
             ->withCount('reviews')
             ->withAvg('reviews', 'rate')
             ->where('products.id', $product->id)
-            ->first();
+            ->first()
+            ->append('is_basket');
         $similar = Product::with('images')
             ->whereNot('products.id', $product->id)
             ->orderByRaw("ABS(price - $product->price) ")

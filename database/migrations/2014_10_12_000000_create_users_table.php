@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone')->unique();
             $table->string('password');
-            //TODO add default avatar
             $table->string('avatar')->nullable();
             $table->longText('description')->nullable();
             $table->enum('type', ['client', 'company'])->default('client');

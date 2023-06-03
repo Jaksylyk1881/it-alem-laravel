@@ -12,7 +12,7 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = User::query()
-            ->select(['id', 'name', 'avatar'])
+            ->select(['id', 'name', 'avatar', 'lat', 'lng'])
             ->with('images')
             ->where('type', 'company')
             ->get();

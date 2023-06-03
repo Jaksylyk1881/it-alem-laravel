@@ -37,8 +37,8 @@ class Controller extends BaseController
             case 401: //�� �����������
                 $result['statusCode'] = 401;
                 $result['message'] = ($message) ? $message : trans('messages.http_errors.401');
-                $result['data'] = null;
                 break;
+                $result['data'] = null;
             case 403: //������ ��������
                 $result['statusCode'] = 403;
                 $result['message'] = ($message) ? $message : trans('messages.http_errors.403');

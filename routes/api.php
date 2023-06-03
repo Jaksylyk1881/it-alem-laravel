@@ -69,7 +69,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
 
     Route::delete('basket/clear', [UserBasketController::class, 'clear']);
     Route::apiResource('basket', UserBasketController::class)->only(['index', 'store', 'update','destroy']);
-    Route::apiResource('order', UserOrderController::class)->only(['index', 'show', 'store']);
+    Route::apiResource('order', UserOrderController::class)->only(['index', 'show', 'store', 'update']);
     Route::apiResource('address', UserAddressController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('company', UserCompanyController::class)->only(['index', 'show']);
     Route::apiResource('favorite', FavoriteController::class)->only('index', 'store');

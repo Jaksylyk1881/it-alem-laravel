@@ -81,6 +81,12 @@
                             <label style="font-style: italic;padding: 0px 4px">Загрузите изображение компаний</label>
                             <input type="file" name="images[]" multiple>
                         </div>
+                        <div class="input-group mb-2 col-lg-18">
+                            <input type="number" step="0.0000001" class="form-control" name="lat"  placeholder="Введите ширету" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-2 col-lg-18">
+                            <input type="number" step="0.0000001" class="form-control" name="lng"  placeholder="Введите долготу" aria-describedby="basic-addon1">
+                        </div>
 
                         <div class="align-content-end input-group mb-2 col-lg-18 offset-lg-8  ">
                             <button type="submit" class=" btn-success">Добавить</button>
@@ -193,6 +199,12 @@
                                                         <div class="input-group mb-2 col-lg-18" >
                                                             <label style="font-style: italic;padding: 0px 4px">Загрузите изобрежение компаний</label>
                                                             <input type="file" name="images[]" multiple>
+                                                        </div>
+                                                        <div class="input-group mb-2 col-lg-18">
+                                                            <input type="number" step="0.0000001" class="form-control" name="lat" value="{{$user->lat}}"  placeholder="Введите ширету" aria-describedby="basic-addon1">
+                                                        </div>
+                                                        <div class="input-group mb-2 col-lg-18">
+                                                            <input type="number" step="0.0000001" class="form-control" name="lng" value="{{$user->lng}}" placeholder="Введите долготу" aria-describedby="basic-addon1">
                                                         </div>
                                                         <div class="align-content-end input-group mb-2 col-lg-18 offset-lg-8  ">
                                                             <button type="submit" class="btn-warning">Изменить</button>

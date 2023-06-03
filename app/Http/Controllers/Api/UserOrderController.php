@@ -24,7 +24,15 @@ class UserOrderController extends Controller
                 'products.product.user',
                 'products.gift_products.images',
             ])
-            ->get();
+            ->get()
+            ->map(function ($order) {
+                $order->type = $order->products->first()->product->category->type;
+                $order->status_str = Order::STATUS[$order->status];
+                foreach ($order->products as $product) {
+                    $product->sum = $product->product->count * $product->product->price;
+                }
+                return $order;
+            });
         return $this->Result(200, $orders);
     }
 
@@ -37,17 +45,19 @@ class UserOrderController extends Controller
         if($request->user()->baskets()->get()->isEmpty()) {
             return $this->Result(400, 'Basket is empty');
         }
+        //get basket items
+        $baskets_query = Basket::where('user_id', $request->user()->id);
+        $baskets = $baskets_query->with(['product.category'])->get();
+        foreach ($baskets->where('product.category.type', 'service') as $basket) {
 
-        $order = Order::create([
-            'user_id' => $request->user()->id,
-            'address_id' => Address::find($request->address_id)->id ?? null,
-            'delivery_type' => $request->delivery_type,
-            'payment_type' => $request->payment_type,
-            'description' => $request->description,
-        ]);
+            $order = Order::create([
+                'user_id' => $request->user()->id,
+                'address_id' => Address::find($request->address_id)->id ?? null,
+                'delivery_type' => $request->delivery_type,
+                'payment_type' => $request->payment_type,
+                'description' => $request->description,
+            ]);
 
-        $baskets = Basket::where('user_id', $request->user()->id);
-        foreach ($baskets->get() as $basket) {
             OrderProduct::create([
                 'order_id' => $order->id,
                 'product_id' => $basket->product_id,
@@ -55,11 +65,33 @@ class UserOrderController extends Controller
                 'count' => $basket->count,
             ]);
 
+            Basket::query()
+                ->where('id', $basket->id)
+                ->delete();
+        }
+        if($baskets->where('product.category.type', 'product')->isNotEmpty()) {
+
+            $order = Order::create([
+                'user_id' => $request->user()->id,
+                'address_id' => Address::find($request->address_id)->id ?? null,
+                'delivery_type' => $request->delivery_type,
+                'payment_type' => $request->payment_type,
+                'description' => $request->description,
+            ]);
+            foreach ($baskets->where('product.category.type', 'product') as $basket) {
+                OrderProduct::create([
+                    'order_id' => $order->id,
+                    'product_id' => $basket->product_id,
+                    'gift_product_id' => $basket->gift_product_id,
+                    'count' => $basket->count,
+                ]);
+            }
+            Basket::query()
+                ->whereIn('id', $baskets->where('product.category.type', 'product')->pluck('id'))
+                ->delete();
         }
 
-        $baskets->delete();
-
-        return $this->Result(200, $order);
+        return $this->Result(200);
     }
 
     /**
@@ -75,6 +107,12 @@ class UserOrderController extends Controller
                 'products.gift_products.images',
             ])
         ); //add products->images
+    }
+
+    public function update(Request $request, Order $order)
+    {
+        $order->update($request->all());
+        return $this->Result(200);
     }
 
 }

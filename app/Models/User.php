@@ -34,6 +34,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'lat' => 'integer',
+        'lng' => 'integer',
     ];
 
     public function baskets()

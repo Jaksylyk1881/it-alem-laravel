@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+
+    const STATUS = [
+        '0' => 'decline',
+        '10' => 'in progress',
+        '20' => 'complete',
+    ];
+
     protected $guarded = [];
 
     const DELIVERY_TYPE = ['pickup', 'delivery'];

@@ -12,22 +12,6 @@ use Illuminate\Support\Facades\Cache;
 use Workerman\Connection\TcpConnection;
 use Workerman\Worker;
 
-function online($id){
-
-
-
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8001/api/user/online/$id");
-
-    curl_exec($ch);
-
-//    dump(false);
-//    dump($id);
-    return 'online';
-}
-
-
 function sendTo($id, $messageData, $connections ,  $worker)
 {
     if (isset($worker->connections[$id])){
@@ -117,7 +101,6 @@ function message($messageData, $connection)
         ->first();
     DB::table('chat_messages')->insertGetId([
         'chat_id' => $chatId,
-        'type' => 'message',
         'user_id' => $connection->user_id,
         'text' => $messageData['text'] ?? null,
         'read' => 0,
@@ -177,88 +160,6 @@ function message($messageData, $connection)
 //    DB::table('chats')
 //        ->where('id', $chatId)
 //        ->update(['updated_at' => Carbon::now()->addHours(5)]);
-
-    return $message;
-
-}
-
-function fileMessage($messageData, $connection)
-{
-
-    dump('chat_file true');
-    $chatId = chat($connection->user_id, $messageData['to'] );
-    $messageID = DB::table('chat_messages')->insertGetId([
-        'type' => 'file',
-        'chat_id' => $chatId,
-        'user_id' => $connection->user_id,
-        'text' => $messageData['text'] ?? null,
-        'read' => 0,
-        'created_at' => Carbon::now()->addHours(6)->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->addHours(6)->format('Y-m-d H:i:s'),
-    ]);
-
-    if($messageData['path'] != null){
-        $image  = new ChatMessageFile();
-        $image->type = $messageData['type'];
-        $image->path = $messageData['path'];
-
-        $image->message_id = $messageID ?? null;
-        $image->save();
-
-    }
-
-
-    $message['action'] = 'file';
-    $message['chat_id'] = $chatId;
-    $message['name'] = $connection->name;
-    $message['text'] = $messageData['text'] ?? null;
-    $message['created_at'] = Carbon::now()->addHours(3);
-    $message['path'] = $image->path;
-    $message['type'] = 'file';
-    $message['type_file'] = $messageData['type'];
-    $message['user_id'] = $connection->user_id ?? null;
-    $message['avatar'] = $connection->avatar ?? null;
-    //DB::table('chat_messages')->where('id', $messageData['message_id'])->update(['type' => 'file']);
-
-   // sendTo($messageData['to'], $message, $connections);
-    Client::publish($messageData['to'], array(
-        'to_connection_id' => $connection->id,
-        'content'          => $message
-    ));
-
-//    if(!DB::table('users')->whereId($messageData['to'])->whereOnline(1)->exists()){
-//
-//        dump('push');
-//        $user = DB::table('users')->whereId($connection->id)->first();
-//        $title = "$user->name жаңа хат ";
-//        $body =  $messageData['type'] == 'audio' ?'аудио 🔈' : 'сурет 🏞';
-//
-//
-//        $device_token = User::whereId($messageData['to'])->pluck('device_token');
-//
-//
-//        $type = ["action"=>"message","chat_id"=>$chatId,"friend_id"=>$connection->id,"friend_name"=>$user->name];
-//        if($user->device_type == 'huawei') {
-//
-//            $tokenKits = User::whereId($user->id)->pluck('device_token')->toArray();
-//            $tokenKit = array();
-//            foreach ($tokenKits as $tokens) {
-//                $tokenKit = $tokens;
-//            }
-//
-//            $baerer = Push::PushKitToken()['access_token'];
-//            Push::Pushkit($tokenKit, $baerer, $title, $body, $type);
-//        }else{
-//            Push::PushFirbase($device_token , $title , $body , $type);
-//        }
-//    }
-
-
-    send($message, $connection);
-
-   // DB::table('chats')->where('id', $message['chat_id'])->update(['updated_at' => Carbon::now()->addHours(6)]);
-
-
 
     return $message;
 

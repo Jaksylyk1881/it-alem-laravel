@@ -159,7 +159,7 @@ class ProductController extends Controller
 
     public function storeImages(Product $product, $images)
     {
-        foreach ($images as $image) {
+        foreach ($images ?? [] as $image) {
             $product->images()->create([
                 'path' => $this->uploadFile($image, 'products/images'),
             ]);

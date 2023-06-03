@@ -85,4 +85,17 @@ class Controller extends BaseController
             return false;
         }
     }
+
+    protected function paginateResource($paginated_items, $items = null) {
+        return [
+            'items' => $items ?? $paginated_items->items(),
+            'pagination' => [
+                'total' => $paginated_items->total(),
+                'current_page' => $paginated_items->currentPage(),
+                'has_more_pages' => $paginated_items->hasMorePages(),
+                'last_page' => $paginated_items->lastPage(),
+                'per_page' => $paginated_items->perPage(),
+            ],
+        ];
+    }
 }

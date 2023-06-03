@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -88,4 +89,12 @@ class User extends Authenticatable
         return $this->hasMany(Favorite::class);
     }
 
+    public function getChatsWithUsersAttribute()
+    {
+        return Chat::query()
+            ->join('chat_users', function ($leftJoin) {
+                $leftJoin->orWhere('chat_users.user_id','=',DB::raw($this->id));
+                $leftJoin->orWhere('chat_users.owner_id','=', DB::raw($this->id));
+            });
+    }
 }

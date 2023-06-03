@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->enum('delivery_type', ['pickup', 'delivery']);
             $table->enum('payment_type', ['cash', 'card']);
             $table->longText('description');
-            $table->bigInteger('status')->default(10)->comment('0 - decline, 10 - product does not sent, 20 - accepted');
+            $table->bigInteger('status')->default(10)->comment('0 - decline, 10 - in process, 15 - accepted, 20 - complete');
             $table->timestamps();
         });
     }

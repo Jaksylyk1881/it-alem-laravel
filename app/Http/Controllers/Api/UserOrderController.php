@@ -26,7 +26,7 @@ class UserOrderController extends Controller
             ->get()
             ->map(function ($order) {
                 $order->status_str = Order::STATUS[$order->status];
-                foreach ($order->products as $product) {
+                foreach ($order->products ?? [] as $product) {
                     $product->sum = $product->product->count * $product->product->price;
                 }
                 return $order;
@@ -46,7 +46,7 @@ class UserOrderController extends Controller
         //get basket items
         $baskets_query = Basket::where('user_id', $request->user()->id);
         $baskets = $baskets_query->with(['product.category'])->get();
-        foreach ($baskets->where('product.category.type', 'service') as $basket) {
+        foreach ($baskets->where('product.category.type', 'service') ?? [] as $basket) {
 
             $order = Order::create([
                 'user_id' => $request->user()->id,
@@ -76,7 +76,7 @@ class UserOrderController extends Controller
                 'payment_type' => $request->payment_type,
                 'description' => $request->description,
             ]);
-            foreach ($baskets->where('product.category.type', 'product') as $basket) {
+            foreach ($baskets->where('product.category.type', 'product') ?? [] as $basket) {
                 OrderProduct::create([
                     'order_id' => $order->id,
                     'product_id' => $basket->product_id,

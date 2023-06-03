@@ -55,7 +55,7 @@ class ProductController extends Controller
 
     private function storeImages(Product $product, $images)
     {
-        foreach ($images as $image) {
+        foreach ($images ?? [] as $image) {
             Image::create([
                 'product_id' => $product->id,
                 'path' => $this->uploadFile($image, 'products/images')
@@ -65,7 +65,7 @@ class ProductController extends Controller
     private function storeGifts(Product $product, $gifs)
     {
         $product->gifts()->delete();
-        foreach ($gifs as $gif) {
+        foreach ($gifs ?? [] as $gif) {
             if($gif != null) {
                 ProductGift::create([
                     'main_product_id' => $product->id,

@@ -69,6 +69,9 @@ class ProductController extends Controller
             ->when($request->search, function ($query) use ($request) {
                 $query->where('products.name', 'like', "%$request->search%");
             })
+            ->when($request->company_id, function ($query) use ($request) {
+                $query->where('products.user_id', $request->company_id);
+            })
         ;
         $products = $products->paginate(10);
         $product_items = $products->append(['is_basket']);

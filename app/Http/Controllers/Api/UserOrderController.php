@@ -25,7 +25,6 @@ class UserOrderController extends Controller
             ])
             ->get()
             ->map(function ($order) {
-                $order->type = $order->products->first()->product->category->type;
                 $order->status_str = Order::STATUS[$order->status];
                 foreach ($order->products as $product) {
                     $product->sum = $product->product->count * $product->product->price;

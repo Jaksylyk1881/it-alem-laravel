@@ -16,7 +16,7 @@ class Order extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['type'];
+    protected $appends = ['type', 'status_str'];
 
     const DELIVERY_TYPE = ['pickup', 'delivery'];
     const PAYMENT_TYPE = ['cash', 'card'];
@@ -47,5 +47,9 @@ class Order extends Model
     public function getTypeAttribute()
     {
         return $this->products()->first()->product->category->type;
+    }
+    public function getStatusStrAttribute()
+    {
+        return self::STATUS[$this->status];
     }
 }

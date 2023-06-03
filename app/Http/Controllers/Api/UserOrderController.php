@@ -105,7 +105,7 @@ class UserOrderController extends Controller
                 'products.product.images',
                 'products.gift_products.images',
             ])
-        ); //add products->images
+        );
     }
 
     public function update(Request $request, Order $order)

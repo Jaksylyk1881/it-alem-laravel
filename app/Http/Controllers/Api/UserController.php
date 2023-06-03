@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request)
     {
-        $request->user()->update($request->except(['password', 'avatar']));
+        $request->user()->update($request->except(['password', 'avatar', 'password_confirmation']));
         if($request->password) {
             $request->user()->update(['password' => bcrypt($request->password)]);
         }

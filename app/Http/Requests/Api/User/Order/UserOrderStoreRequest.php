@@ -27,7 +27,7 @@ class UserOrderStoreRequest extends FormRequest
             'address_id' => 'exists:addresses,id',
             'delivery_type' => 'required|in:' . implode(',', Order::DELIVERY_TYPE),
             'payment_type' => 'required|in:' . implode(',', Order::PAYMENT_TYPE),
-            'description' => 'required|string',
+            'description' => 'string',
         ];
     }
 }

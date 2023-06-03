@@ -10,10 +10,13 @@ class Order extends Model
     const STATUS = [
         '0' => 'decline',
         '10' => 'in progress',
+        '15' => 'accepted',
         '20' => 'complete',
     ];
 
     protected $guarded = [];
+
+    protected $appends = ['type'];
 
     const DELIVERY_TYPE = ['pickup', 'delivery'];
     const PAYMENT_TYPE = ['cash', 'card'];
@@ -39,5 +42,10 @@ class Order extends Model
             return $order_products;
         })->sum('price');
         return $order_products_prices;
+    }
+
+    public function getTypeAttribute()
+    {
+        return $this->products()->first()->product->category->type;
     }
 }

@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\ProductController;
@@ -56,6 +55,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::put('/', [UserController::class, 'update']);
 
+    Route::get('company/product', [UserCompanyController::class, 'product']);
     Route::get('company/order', [UserCompanyController::class, 'index']);
     Route::get('company/order/{order}', [UserCompanyController::class, 'show']);
     Route::put('company/order/{order}', [UserCompanyController::class, 'update']);

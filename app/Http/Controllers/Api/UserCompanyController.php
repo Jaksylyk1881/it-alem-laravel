@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class UserCompanyController extends Controller
@@ -24,7 +25,8 @@ class UserCompanyController extends Controller
         $order_products = $order->load(['products.product.images', 'address', 'user'])->append(['products_price']) ;
         $order_products->status_message = match ($order_products->status) {
             10 => 'Товар у продавца',
-            20 => 'Принято',
+            15 => 'В прцессе',
+            20 => 'Принят',
             0 => 'Отклонено'
         };
 
@@ -35,13 +37,26 @@ class UserCompanyController extends Controller
     {
         switch ($request->get('action')) {
             case 'accept':
-                $order->update(['status' => 20]);
+                $order->update(['status' => 15]);
                 break;
             case 'decline':
                 $order->update(['status' => 0]);
+                break;
+            case 'complete':
+                $order->update(['status' => 20]);
+                break;
         }
 
         return $this->Result(200, $order);
+    }
+
+    public function product(Request $request)
+    {
+        $products = Product::query()
+            ->with(['images', 'category', 'gifts'])
+            ->where('id', $request->company_id)
+            ->first();
+        return $this->Result(200, $products);
     }
 
 }

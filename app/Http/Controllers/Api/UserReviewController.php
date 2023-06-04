@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isEmpty;
 
 class UserReviewController extends Controller
 {
@@ -23,7 +24,7 @@ class UserReviewController extends Controller
         $statistics = $comments->countBy('rate');
         $res = [
             'statistics' => [
-                'by_rate' => $statistics,
+                'by_rate' => $statistics->isEmpty() ? null : $statistics,
                 'avg' => $comments->avg('rate'),
                 'count' => $comments->count(),
             ],

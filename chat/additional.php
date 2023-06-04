@@ -94,30 +94,14 @@ function message($messageData, $connection)
     $message['user_id'] = $connection->user_id ?? null;
     $message['avatar'] = $connection->avatar ?? null;
 
-    $talker_last_message = DB::table('chat_messages')
-        ->select(['id', 'user_id','created_at'])
-        ->whereChatId($chatId)
-        ->orderByDesc('created_at')
-        ->first();
     DB::table('chat_messages')->insertGetId([
         'chat_id' => $chatId,
         'user_id' => $connection->user_id,
         'text' => $messageData['text'] ?? null,
         'read' => 0,
-        'response_time' =>
-            ($talker_last_message != null && $talker_last_message->user_id != $connection->user_id)
-            ? (strtotime(now()->addHours(8)) - strtotime($talker_last_message->created_at))
-            : null,
         'created_at' => Carbon::now()->addHours(8)->format('Y-m-d H:i:s'),
         'updated_at' => Carbon::now()->addHours(8)->format('Y-m-d H:i:s'),
     ]);
-
-//    if( isset($messageData['path'])){
-//      DB::table('chat_message_files')->insertGetId([
-//                'message_id' => $messageID,
-//                'path' => $messageData['path'],
-//        ]);
-//    }
 
    // sendTo($messageData['to'], $message, $connections , $worker);
 

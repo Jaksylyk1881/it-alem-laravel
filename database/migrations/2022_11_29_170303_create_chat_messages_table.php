@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('text' , 255);
             $table->boolean('read');
-            $table->string('response_time')->nullable()->comment('time in second is too large :( ');
             $table->timestamps();
         });
     }

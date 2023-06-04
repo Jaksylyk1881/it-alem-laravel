@@ -92,9 +92,12 @@ class User extends Authenticatable
     public function getChatsWithUsersAttribute()
     {
         return Chat::query()
-            ->join('chat_users', function ($leftJoin) {
-                $leftJoin->orWhere('chat_users.user_id','=',DB::raw($this->id));
-                $leftJoin->orWhere('chat_users.owner_id','=', DB::raw($this->id));
+            ->join('chat_users', function ($q) {
+                $q->where(function ($qq) {
+                    $qq->orWhere('chat_users.user_id', '=', DB::raw($this->id));
+                    $qq->orWhere('chat_users.owner_id', '=', DB::raw($this->id));
+                });
+                $q->on('chat_users.chat_id', 'chats.id');
             });
     }
 }

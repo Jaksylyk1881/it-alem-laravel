@@ -10,6 +10,7 @@ use App\Models\ChatUsers;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -22,14 +23,18 @@ class ChatController extends Controller
             ->with([
             'chat_users.owner:id,name,avatar',
             'chat_users.user:id,name,avatar',
-            'messages' => function($q) {
-                    $q->latest()->take(1);
-                }
+//            'messages' => function($q) {
+//                    $q->whereRaw(('chat_messages.id =
+//                    (select MAX(chat_messages.id)
+//                    FROM chat_messages
+//                    WHERE chat_messages.chat_id = chats.id'
+//                    ));
+//                }
             ])
             ->withCount(['messages' => function ($messages) {
                 return $messages->where('read', 0)->where('chat_users.user_id', '!=', auth()->id());
             }])
-            ->selectRaw('chat_messages.created_at as last_message_created_at')
+            ->selectRaw('chat_messages.created_at as last_message_created_at,chat_messages.text as last_message_text ,chat_messages.id as last_message_id ,chat_messages.read as last_message_read ')
             ->leftJoin('chat_messages', 'chat_messages.chat_id', 'chats.id')
             ->whereRaw('chat_messages.id = (SELECT max(id) FROM chat_messages WHERE chat_messages.chat_id = chats.id )')
             ->orderByDesc('last_message_created_at')
@@ -38,10 +43,16 @@ class ChatController extends Controller
         ;
         $chats->map(function ($chat) {
             $chat->talker =
-                $chat->user_id == auth()->id()
+                $chat->chat_users->user->id == auth()->id()
                 ? $chat->chat_users->owner
                 : $chat->chat_users->user;
             $chat->setHidden(['chat_users']);
+            $chat->messages = [
+                'id' => $chat->last_message_id,
+                'text' => $chat->last_message_text,
+                'read' => $chat->last_message_read,
+                'created_at' => $chat->last_message_created_at,
+            ];
             return $chat;
         });
         return $this->Result(200, $chats);

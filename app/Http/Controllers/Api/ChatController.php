@@ -72,7 +72,7 @@ class ChatController extends Controller
         return $this->Result(200, [
             'chat' => $chat,
             'talker' => $talker,
-            'messages' => $this->paginateResource($messages_query->paginate(30)),
+            'messages' => $messages_query->get(),
         ]);
     }
 }

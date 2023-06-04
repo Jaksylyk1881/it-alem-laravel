@@ -90,7 +90,7 @@ function message($messageData, $connection)
     $message['chat_id'] = $chatId;
     $message['name'] = $connection->name;
     $message['text'] = $messageData['text'];
-    $message['created_at'] = Carbon::now()->addHours(3);
+    $message['created_at'] = Carbon::now()->addHours(6);
     $message['user_id'] = $connection->user_id ?? null;
     $message['avatar'] = $connection->avatar ?? null;
 
@@ -99,8 +99,8 @@ function message($messageData, $connection)
         'user_id' => $connection->user_id,
         'text' => $messageData['text'] ?? null,
         'read' => 0,
-        'created_at' => Carbon::now()->addHours(8)->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->addHours(8)->format('Y-m-d H:i:s'),
+        'created_at' => Carbon::now()->addHours(6)->format('Y-m-d H:i:s'),
+        'updated_at' => Carbon::now()->addHours(6)->format('Y-m-d H:i:s'),
     ]);
 
    // sendTo($messageData['to'], $message, $connections , $worker);

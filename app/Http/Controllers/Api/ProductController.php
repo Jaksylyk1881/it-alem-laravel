@@ -197,4 +197,27 @@ class ProductController extends Controller
 
         return $this->Result(200);
     }
+
+    public function company(Request $request, $company)
+    {
+        $products = Product::query()
+            ->with([
+                'images',
+                'category',
+                'gifts.product.images',
+            ])
+            ->withCount('reviews')
+            ->withCount('gifts')
+            ->withAvg('reviews', 'rate')
+            ->where('products.user_id', $company)
+            ->get()
+            ->map(function ($product) {
+                $product['has_gifts'] = $product['gifts_count'] > 0;
+                return $product;
+            });
+        return $this->Result(200, [
+            'products' => $products->where('category.type', 'product')->values(),
+            'services' => $products->where('category.type', 'service')->values(),
+        ]);
+    }
 }

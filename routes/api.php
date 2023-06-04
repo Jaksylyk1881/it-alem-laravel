@@ -42,6 +42,7 @@ Route::prefix('product')->group(function () {
     Route::get('form-values', [ProductController::class, 'searchFormValues']);
     Route::get('company/{company}', [CompanyController::class, 'show']);
     Route::post('company/{company}', [UserReviewController::class, 'companyStore'])->middleware('auth:sanctum');
+    Route::get('company/product/{company}', [ProductController::class, 'company']);
 
     Route::get('{product}/review', [UserReviewController::class, 'index']);
     Route::post('{product}/review', [UserReviewController::class, 'store'])->middleware('auth:sanctum');
@@ -57,7 +58,6 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::put('/', [UserController::class, 'update']);
 
-    Route::get('company/product', [UserCompanyController::class, 'product']);
     Route::get('company/order', [UserCompanyController::class, 'index']);
     Route::get('company/order/{order}', [UserCompanyController::class, 'show']);
     Route::put('company/order/{order}', [UserCompanyController::class, 'update']);

@@ -21,6 +21,7 @@ class UserOrderController extends Controller
             ->with([
                 'address',
                 'products.product.images',
+                'products.product.user',
                 'products.gift_products.images',
             ])
             ->get()

@@ -37,8 +37,6 @@ function signIn ($connections,$connection){
 //                'avatar' => $c->avatar
 //            ];
 //        }
-        User::where('id', $_GET['user_id'])->update(['is_online' => 1]);
-
         send([
             'action' => 'authorized',
             'id' => $connection->id,

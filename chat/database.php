@@ -12,9 +12,9 @@ $Capsule = new Manager();
 $Capsule->addConnection([
     "driver" => "mysql",
     "host" => "127.0.0.1",
-    "database" => "arendos",
+    "database" => "it_alem",
     "username" => "root",
-    "password" => "BZy59%dud76f",
+    "password" => "RshWDYmZvK",
     "charset" => "utf8mb4",
     "collation" => "utf8mb4_bin",
     "prefix" => "",

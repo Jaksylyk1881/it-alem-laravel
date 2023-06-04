@@ -161,7 +161,7 @@ class ProductController extends Controller
     {
         foreach ($images ?? [] as $image) {
             $product->images()->create([
-                'path' => $this->uploadFile($image, 'products\images'),
+                'path' => $this->uploadFile($image, 'products/images'),
             ]);
         }
     }

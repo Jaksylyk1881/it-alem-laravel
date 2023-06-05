@@ -54,6 +54,7 @@ class ChatController extends Controller
             $chat->setHidden(['chat_users']);
             $chat->messages = [
                 'id' => $chat->last_message_id,
+                'user_id' => $chat->last_message_user_id,
                 'text' => $chat->last_message_text,
                 'read' => $chat->last_message_read,
                 'created_at' => $chat->last_message_created_at,

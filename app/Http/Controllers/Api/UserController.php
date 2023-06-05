@@ -41,7 +41,7 @@ class UserController extends Controller
             ->with([
                 'images',
                 'category',
-                'gifts.product.images',
+                'gifts.gift_product.images',
             ])
             ->withCount('reviews')
             ->withCount('gifts')

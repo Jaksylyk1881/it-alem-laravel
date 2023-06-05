@@ -190,12 +190,12 @@ class ProductController extends Controller
     }
     public function deleteGift($product, $gift)
     {
-        ProductGift::query()
+        $res = ProductGift::query()
             ->where('main_product_id', $product)
             ->where('gift_product_id', $gift)
             ->delete();
 
-        return $this->Result(200);
+        return $this->Result(200, $res);
     }
 
     public function company(Request $request, $company)

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\PrivacyPolicyController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserAddressController;
 use App\Http\Controllers\Api\UserBasketController;
@@ -53,6 +54,7 @@ Route::get('company', [CompanyController::class, 'index']);
 Route::get('banner', [BannerController::class, 'index']);
 Route::get('category', [CategoryController::class, 'index']);
 Route::apiResource('chat', ChatController::class)->only(['index', 'show'])->middleware('auth:sanctum');
+Route::get('privacy-policy', [PrivacyPolicyController::class, 'index']);
 
 Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::get('/', [UserController::class, 'index']);

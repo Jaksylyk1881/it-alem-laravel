@@ -110,7 +110,7 @@ function message($messageData, $connection)
         'content'          => $message
     ));
 
-
+    send($message,$connection);
 
 //    if(!DB::table('users')->whereId($messageData['to'])->whereOnline(1)->exists()){
 //

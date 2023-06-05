@@ -34,7 +34,12 @@ class ChatController extends Controller
             ->withCount(['messages' => function ($messages) {
                 return $messages->where('read', 0)->where('chat_users.user_id', '!=', auth()->id());
             }])
-            ->selectRaw('chat_messages.created_at as last_message_created_at,chat_messages.text as last_message_text ,chat_messages.id as last_message_id ,chat_messages.read as last_message_read ')
+            ->selectRaw(
+                'chat_messages.created_at as last_message_created_at,
+                chat_messages.text as last_message_text,
+                chat_messages.id as last_message_id,
+                chat_messages.user_id as last_message_user_id,
+                chat_messages.read as last_message_read ')
             ->leftJoin('chat_messages', 'chat_messages.chat_id', 'chats.id')
             ->whereRaw('chat_messages.id = (SELECT max(id) FROM chat_messages WHERE chat_messages.chat_id = chats.id )')
             ->orderByDesc('last_message_created_at')

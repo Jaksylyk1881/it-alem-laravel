@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\Review\UserReviewCompanyStoreRequest;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ class UserReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Product $product)
+    public function store(UserReviewCompanyStoreRequest $request, Product $product)
     {
         return $this->Result(200, $product->reviews()->create([
             'rate' => $request->rate,
@@ -44,7 +45,7 @@ class UserReviewController extends Controller
         ]));
     }
 
-    public function companyStore(Request $request, $company)
+    public function companyStore(UserReviewCompanyStoreRequest $request, $company)
     {
         return $this->Result(200, Review::query()->create([
             'rate' => $request->rate,

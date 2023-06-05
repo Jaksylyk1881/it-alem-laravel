@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Api\Product;
+namespace App\Http\Requests\Api\User\Review;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ProductStoreRequest extends FormRequest
+class UserReviewCompanyStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,17 +23,11 @@ class ProductStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string',
-            'price' => 'required|integer',
-            'count' => 'required|integer',
-            'characteristics' => 'required|string',
-            'description' => 'required|string',
-            'images' => 'required|array',
-            'gifts' => 'array',
-            'gifts.*' => 'exists:products,id',
+            'rate' => 'required|integer|min:1|max:5',
+            'body' => 'required|string',
         ];
     }
+
     public function failedValidation($validator)
     {
         throw new HttpResponseException(

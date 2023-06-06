@@ -28,7 +28,7 @@
                                     {{ $review->id}}
                                 </td>
                                 <td>
-                                    {{$review->user->name}}
+                                    {{$review->user?->name}}
                                 </td>
                                 <td class="text-center">
                                     <!-- Button trigger Review Edit -->
@@ -46,11 +46,11 @@
                                                 <div class="modal-body ">
                                                     <div class="input-group mb-2 col-lg-18">
                                                         <label>Продукт</label>
-                                                        <input type="text" class="form-control" name="name"  placeholder="Введите " value="{{$review->product->name}}" aria-describedby="basic-addon1">
+                                                        <input type="text" class="form-control" name="name"  placeholder="Введите " value="{{$review->product?->name}}" aria-describedby="basic-addon1">
                                                     </div>
                                                     <div class="input-group mb-2 col-lg-18">
                                                         <label>Пользователь</label>
-                                                        <input type="text" class="form-control" name="price"  placeholder="Введите  " value="{{$review->user->name}}" aria-describedby="basic-addon1">
+                                                        <input type="text" class="form-control" name="price"  placeholder="Введите  " value="{{$review->user?->name}}" aria-describedby="basic-addon1">
                                                     </div>
                                                     <div class="input-group mb-2 col-lg-18">
                                                         <label>Оценка</label>

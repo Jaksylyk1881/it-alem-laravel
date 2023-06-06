@@ -37,7 +37,7 @@
                                     {{$order->user->name ?? ''}}
                                 </td>
                                 <td>
-                                    {{$order->products[0]->product->user->name ?? ''}}
+                                    {{$order?->products[0]?->product?->user?->name ?? ''}}
                                 </td>
                                 <td>
                                     {{$order->created_at ?? ''}}
@@ -58,11 +58,11 @@
                                                 <div class="modal-body ">
                                                     <div class="input-group mb-2 col-lg-18">
                                                         <label>Адрес</label>
-                                                        <input type="text" class="form-control" name="name"  placeholder="Введите " value="{{$order->address->name}}" aria-describedby="basic-addon1" readonly>
+                                                        <input type="text" class="form-control" name="name"  placeholder="Введите " value="{{$order->address?->name}}" aria-describedby="basic-addon1" readonly>
                                                     </div>
                                                     <div class="input-group mb-2 col-lg-18">
                                                         <label>Пользователь</label>
-                                                        <input type="text" class="form-control" name="price"  placeholder="Введите  " value="{{$order->user->name}}" aria-describedby="basic-addon1" readonly>
+                                                        <input type="text" class="form-control" name="price"  placeholder="Введите  " value="{{$order->user?->name}}" aria-describedby="basic-addon1" readonly>
                                                     </div>
                                                     <div class="  mb-2 col-lg-18 offset-lg-18">
                                                         <p style="padding: 5px"></p>

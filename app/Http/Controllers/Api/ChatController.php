@@ -21,15 +21,8 @@ class ChatController extends Controller
             ->getChatsWithUsersAttribute();
         $chats = $chats
             ->with([
-            'chat_users.owner:id,name,avatar',
-            'chat_users.user:id,name,avatar',
-//            'messages' => function($q) {
-//                    $q->whereRaw(('chat_messages.id =
-//                    (select MAX(chat_messages.id)
-//                    FROM chat_messages
-//                    WHERE chat_messages.chat_id = chats.id'
-//                    ));
-//                }
+                'chat_users.owner:id,name,avatar',
+                'chat_users.user:id,name,avatar',
             ])
             ->withCount(['messages' => function ($messages) {
                 return $messages->where('read', 0)->where('chat_users.user_id', '!=', auth()->id());
